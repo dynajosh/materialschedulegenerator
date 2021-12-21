@@ -9,6 +9,7 @@ import Box from '@material-ui/core/Box';
 import CivilWorks from './civilWorks';
 import WallFinishes from './WallFinishes';
 import FloorFinishes from './FloorFInishes';
+import Formwork from './Formwork'
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -63,7 +64,7 @@ function a11yProps(index) {
             <Tab label="Civil Works" {...a11yProps(0)} />
             <Tab label="Wall Finishes" {...a11yProps(1)} />
             <Tab label="Floor Finishes" {...a11yProps(2)} />
-            <Tab label="Formwork" {...a11yProps(1)} />
+            <Tab label="Formwork" {...a11yProps(3)} />
             <Tab label="Screed" {...a11yProps(1)} />
             <Tab label="Reinforcement" {...a11yProps(1)} />
             <Tab label="External Works" {...a11yProps(1)} />
@@ -77,6 +78,9 @@ function a11yProps(index) {
         </TabPanel>
         <TabPanel value={value} index={2}>
           <FloorFinishes />
+        </TabPanel>
+        <TabPanel value={value} index={3}>
+          <Formwork />
         </TabPanel>
       </div>
     );

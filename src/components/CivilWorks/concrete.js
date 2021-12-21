@@ -25,31 +25,51 @@ const CalculationPage = () =>{
     const [concreteSand, setConcreteSand] = useState(0)
     const [concreteMixRatio, setConcreteMixRatio] = useState(124)
     const [concreteGranite, setConcreteGranite] = useState(0)
+    const [concreteCementAmount, setConcreteCementAmount]= useState(0)
+    const [concreteSandAmount, setConcreteSandAmount] = useState(0);
+    const [concreteGraniteAmount, setConcreteGraniteAmount] = useState(0)
+    const [cementPrice, setCementPrice] = useState(0)
+    const [sandPrice, setSandPrice] = useState(0)
+    const [granitePrice, setGranitePrice] = useState(0)
+
+    const calculateGraniteAmount = () => {
+        setConcreteGraniteAmount(cementPrice*concreteCement)
+        console.log("THis function was called")
+    }
 
 
     const hanldeMixRatioChange = (e) => {
         setConcreteMixRatio(e.target.value)
+        calculateGraniteAmount()
         console.log(concreteMixRatio)
     }
 
-    const concreteChange = (e) => {
-        setConcreteVolume(e.target.value);
+    const concreteChange = () => {
+        // setConcreteVolume(e.target.value);
         if (concreteMixRatio == 124) {
-            setConcreteCement(0.143*1.4*28.8*concreteVolume)
-            setConcreteSand(0.286*1.4*1.32*concreteVolume)
-            setConcreteGranite(0.571*1.4*1.32*concreteVolume)
+            setConcreteCement(Math.round(0.143*1.4*28.8*concreteVolume))
+            setConcreteSand(Math.round(0.286*1.4*1.32*concreteVolume))
+            setConcreteGranite(Math.round(0.571*1.4*1.32*concreteVolume))
         } else if (concreteMixRatio == 136) {
-            setConcreteCement(0.1*1.4*28.8*concreteVolume)
-            setConcreteSand(0.3*1.4*1.32*concreteVolume)
-            setConcreteGranite(0.6*1.4*1.32*concreteVolume)
+            setConcreteCement(Math.round(0.1*1.4*28.8*concreteVolume))
+            setConcreteSand(Math.round(0.3*1.4*1.32*concreteVolume))
+            setConcreteGranite(Math.round(0.6*1.4*1.32*concreteVolume))
         } else if (concreteMixRatio == 148) {
-            setConcreteCement(0.08*1.4*28.8*concreteVolume)
-            setConcreteSand(0.31*1.4*1.32*concreteVolume)
-            setConcreteGranite(0.62*1.4*1.32*concreteVolume)
+            setConcreteCement(Math.round(0.08*1.4*28.8*concreteVolume))
+            setConcreteSand(Math.round(0.31*1.4*1.32*concreteVolume))
+            setConcreteGranite(Math.round(0.62*1.4*1.32*concreteVolume))
         }
     }
 
-
+    const concreteButton = () => {
+        concreteChange()
+        // calculateGraniteAmount()
+        setConcreteCementAmount(cementPrice*concreteCement)
+        console.log(concreteCementAmount)
+        setConcreteSandAmount(sandPrice*concreteSand)
+        setConcreteGraniteAmount(granitePrice*concreteGranite)
+    }
+    
     return(
         <>
         <div>
@@ -61,7 +81,7 @@ const CalculationPage = () =>{
           <TableRow>
             <TableCell align="">Element</TableCell>
             <TableCell align="">Quantity</TableCell>
-            <TableCell align=""></TableCell>
+            <TableCell align="">0</TableCell>
             <TableCell align=""></TableCell>
           </TableRow>
         </TableHead>
@@ -73,14 +93,13 @@ const CalculationPage = () =>{
                 <input
                     type="text"
                     name="concreteVolume"
+                    value={concreteVolume}
                     className="text-input-field"
-                    // onChange={e => setConcreteVolume(e.target.value)}
-                    onChange={concreteChange}
-                    
+                    onChange={e => setConcreteVolume(e.target.value)}                    
 
                 /> <br /><br />
                 <label>Select Mix ratio: </label><br />
-                <select value = {concreteMixRatio} onChange={hanldeMixRatioChange} className="select-input-field">
+                <select value = {concreteMixRatio} onChange={(e)=>setConcreteMixRatio(e.target.value)} className="select-input-field">
                     <option value="124" >1:2:4</option>
                     <option value="136" >1:3:6</option>
                     <option value="148" >1:4:8</option>
@@ -92,7 +111,7 @@ const CalculationPage = () =>{
                         <TableCell>Component</TableCell>
                         <TableCell>Quantity</TableCell>
                         <TableCell>Unit</TableCell>
-                        <TableCell>Unit cost</TableCell>
+                        <TableCell>Unit Price</TableCell>
                         <TableCell>Amount</TableCell>
                     </TableRow>
                 </TableHead>
@@ -101,22 +120,22 @@ const CalculationPage = () =>{
                             <TableCell>Cement</TableCell>
                             <TableCell>{concreteCement}</TableCell>
                             <TableCell>bags</TableCell>
-                            <TableCell><input type="text" className="text-input-field" placeholder="3700" /></TableCell>
-                            <TableCell>0</TableCell>
+                            <TableCell><input type="text" className="text-input-field" placeholder="3700" value={cementPrice} onChange={(e)=>setCementPrice(e.target.value)}/></TableCell>
+                            <TableCell>{concreteCementAmount}</TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell>Sand</TableCell>
                             <TableCell>{concreteSand}</TableCell>
                             <TableCell>tonnes</TableCell>
-                            <TableCell><input type="text" className="text-input-field" placeholder="4000"/></TableCell>
-                            <TableCell>0</TableCell>
+                            <TableCell><input type="text" className="text-input-field" placeholder="4000" value={sandPrice} onChange={(e)=>setSandPrice(e.target.value)}/></TableCell>
+                            <TableCell>{concreteSandAmount}</TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell>Granite</TableCell>
                             <TableCell>{concreteGranite}</TableCell>
                             <TableCell>tonnes</TableCell>
-                            <TableCell><input type="text" className="text-input-field" placeholder="5000"/></TableCell>
-                            <TableCell>0</TableCell>
+                            <TableCell><input type="text" className="text-input-field" placeholder="5000" value={granitePrice} onChange={(e)=>setGranitePrice(e.target.value)}/></TableCell>
+                            <TableCell>{concreteGraniteAmount}</TableCell>
                         </TableRow>
                     </TableBody>
             </Table>
@@ -124,6 +143,7 @@ const CalculationPage = () =>{
           
         </TableBody>
       </Table>
+      <button className="calculate-button" onClick={concreteButton}>Ca;lculate</button>
     </TableContainer>
         </>
     )

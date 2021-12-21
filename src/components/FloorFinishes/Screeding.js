@@ -18,15 +18,16 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 
 const Screeding = () =>{
     const [open, setOpen] = useState(false)
-    const [floorArea, setfloorsArea] = useState(0);
+    const [floorArea, setFloorArea] = useState(0);
     const [screedingCement, setScreedingCement] = useState(0)
     const [screedingSand, setScreedingSand] = useState(0)
     const [screedingMortarVolume, setScreedingMortarVolume] = useState(0)
     const [screedingThickess, setScreedingThickness] = useState(15)
+    const [cementAmount, setCementAmount] = useState(0);
+    const [cementPrice, setCementPrice] = useState(0);
+    const [sandPrice, setSandPrice] = useState(0);
+    const [sandAmount, setSandAmount] = useState(0)
 
-    const handleScreedingThicknessChange = (e) =>{
-        setScreedingThickness(e.target.value/1000)
-    }
 
     const calculateRendering = () => {
         setScreedingMortarVolume(floorArea*screedingThickess)
@@ -34,8 +35,11 @@ const Screeding = () =>{
         setScreedingSand(0.8*1.3*1.31*screedingMortarVolume)
     }
 
-
-
+    const screedingButton = () => {
+        calculateRendering()
+        setCementAmount(cementPrice*screedingCement)
+        setSandAmount(sandPrice*screedingSand)
+    }
 
 
     return(
@@ -55,9 +59,9 @@ const Screeding = () =>{
             <TableCell align="">Screed</TableCell>
             <TableCell align="">
                 <label>Floor Area (in sqm):</label><br/>
-                <input type="text" className="text-input-field"/><br/><br />
+                <input type="text" className="text-input-field" value={floorArea} onChange={(e)=>setFloorArea(e.target.value)}/><br/><br />
                 <label>Screed thickness (in mm):</label><br/>
-                <input type="text" className="text-input-field"/></TableCell>
+                <input type="text" className="text-input-field" value={screedingThickess} onChange={(e)=>setScreedingThickness(e.target.value/1000)}/></TableCell>
             <Table>
                 <TableHead>
                     <TableRow>
@@ -73,15 +77,15 @@ const Screeding = () =>{
                             <TableCell>Cement</TableCell>
                             <TableCell>{screedingCement}</TableCell>
                             <TableCell>bags</TableCell>
-                            <TableCell><input type="text" className="text-input-field" placeholder="3700" /></TableCell>
-                            <TableCell>0</TableCell>
+                            <TableCell><input type="text" className="text-input-field" placeholder="3700" value={cementPrice} onChange={(e)=>setCementPrice(e.target.value)}/></TableCell>
+                            <TableCell>{cementAmount}</TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell>Sand</TableCell>
                             <TableCell>{screedingSand}</TableCell>
                             <TableCell>tonnes</TableCell>
-                            <TableCell><input type="text" className="text-input-field" placeholder="3500" /></TableCell>
-                            <TableCell>0</TableCell>
+                            <TableCell><input type="text" className="text-input-field" placeholder="3500" value={sandPrice} onChange={(e)=>setSandPrice(e.target.value)}/></TableCell>
+                            <TableCell>{sandAmount}</TableCell>
                         </TableRow>
                     </TableBody>
             </Table>
@@ -89,6 +93,7 @@ const Screeding = () =>{
           
         </TableBody>
       </Table>
+      <button className="calculate-button" onClick={screedingButton}>Ca;lculate</button>
     </TableContainer>
         </>
     )

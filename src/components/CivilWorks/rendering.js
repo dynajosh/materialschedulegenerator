@@ -23,15 +23,22 @@ const Rendering = () =>{
     const [renderingSand, setRenderingSand] = useState(0)
     const [renderingMortarVolume, setRenderingMortarVolume] = useState(0)
     const [renderingThickess, setRenderingThickness] = useState(15)
-
-    const handleRenderingThicknessChange = (e) =>{
-        setRenderingThickness(e.target.value/1000)
-    }
+    const [cementPrice, setCementPrice] = useState(0)
+    const [sandPrice, setSandPrice] = useState(0)
+    const [sandAmount, setSandAmount] = useState(0);
+    const [cementAmount, setCementAmount] = useState(0);
+    
 
     const calculateRendering = () => {
         setRenderingMortarVolume(renderingArea*renderingThickess)
         setRenderingCement(0.2*1.3*28.8*renderingMortarVolume)
         setRenderingSand(0.8*1.3*1.31*renderingMortarVolume)
+    }
+
+    const renderingButton = () => {
+        calculateRendering()
+        setCementAmount(cementPrice*renderingCement)
+        setSandAmount(sandPrice*renderingSand)
     }
 
 
@@ -54,10 +61,10 @@ const Rendering = () =>{
             <TableRow>
             <TableCell align="">Rendering</TableCell>
             <TableCell align="">
-                <label>Area to be rendered (in m):</label><br/>
-                <input type="text" className="text-input-field"/><br/><br />
+                <label>Area to be rendered (in sqm):</label><br/>
+                <input type="text" className="text-input-field" value={renderingArea} onChange={(e)=>setRenderingArea(e.target.value)}/><br/><br />
                 <label>Rendering thickness (in mm):</label><br/>
-                <input type="text" className="text-input-field"/></TableCell>
+                <input type="text" className="text-input-field" value={renderingThickess} onChange={(e)=>setRenderingThickness(e.target.value/1000)}/></TableCell>
             <Table>
                 <TableHead>
                     <TableRow>
@@ -73,15 +80,15 @@ const Rendering = () =>{
                             <TableCell>Cement</TableCell>
                             <TableCell>{renderingCement}</TableCell>
                             <TableCell>bags</TableCell>
-                            <TableCell><input type="text" className="text-input-field" placeholder="3700" /></TableCell>
-                            <TableCell>0</TableCell>
+                            <TableCell><input type="text" className="text-input-field" placeholder="3700" onChange={(e)=>setCementPrice(e.target.value)}/></TableCell>
+                            <TableCell>{cementAmount}</TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell>Sand</TableCell>
                             <TableCell>{renderingSand}</TableCell>
                             <TableCell>tonnes</TableCell>
-                            <TableCell><input type="text" className="text-input-field" placeholder="3500" /></TableCell>
-                            <TableCell>0</TableCell>
+                            <TableCell><input type="text" className="text-input-field" placeholder="3500" value={sandPrice} onChange= {(e)=> setSandPrice(e.target.value)} /></TableCell>
+                            <TableCell>{sandAmount}</TableCell>
                         </TableRow>
                     </TableBody>
             </Table>
@@ -89,6 +96,8 @@ const Rendering = () =>{
           
         </TableBody>
       </Table>
+      <button className="calculate-button" onClick={renderingButton}>Ca;lculate</button>
+
     </TableContainer>
         </>
     )

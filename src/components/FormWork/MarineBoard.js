@@ -16,14 +16,21 @@ import Paper from '@material-ui/core/Paper';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 
-const Tiling = () =>{
-    const [open, setOpen] = useState(false)
-    const [cartons, setCartons] = useState(0)
-    const [floorArea, setFloorArea] = useState(0)
-    
-    const calculateTiling = () => {
-        setCartons(0.8*1.3*floorArea)
-        setFloorArea(5*10*1.1)
+const MarineBoard = () =>{
+    const [open, setOpen] = useState(false);
+    const [area, setArea] = useState(0);
+    const [numberOfBoards, setNumberOfBoards] = useState(0);
+    const [numberOfProps, setNumberOfProps] = useState(0);
+    const [boardPrice, setBoardPrice] = useState(0);
+    const [propsPrice, setPropsPrice] = useState(0);
+    const [boardAmount, setBoardAmount] = useState(0);
+    const [propsAmount, setPropsAmount] = useState(0);
+
+    const formworkButton = () => {
+        setNumberOfBoards(area/1.44)
+        setNumberOfProps(area*2.5)
+        setBoardAmount(numberOfProps*boardPrice)
+        setPropsAmount(numberOfProps*propsPrice)
     }
 
 
@@ -41,8 +48,8 @@ const Tiling = () =>{
         </TableHead>
         <TableBody>
             <TableRow>
-            <TableCell align="">Tiling</TableCell>
-            <TableCell align=""><input type="text" className="text-input-field" className="text-input-field"/></TableCell>
+            <TableCell align="">Area</TableCell>
+            <TableCell align=""><input type="text" className="text-input-field" className="text-input-field" onChange={(e)=>setArea(e.target.value)}/></TableCell>
             <Table>
                 <TableHead>
                     <TableRow>
@@ -55,22 +62,28 @@ const Tiling = () =>{
                 </TableHead>
                     <TableBody>
                         <TableRow>
-                            <TableCell>Tiles</TableCell>
-                            <TableCell>{cartons}</TableCell>
-                            <TableCell>Cartons</TableCell>
-                            <TableCell><input type="text" className="text-input-field" placeholder="3700" /></TableCell>
-                            <TableCell>0</TableCell>
+                            <TableCell>Marine Boards</TableCell>
+                            <TableCell>{numberOfBoards}</TableCell>
+                            <TableCell>Nr</TableCell>
+                            <TableCell><input type="text" className="text-input-field" placeholder="3700" value={boardPrice} onChange={(e)=>setBoardPrice(e.target.value)}/></TableCell>
+                            <TableCell>{boardAmount}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>50mm by 75mm props</TableCell>
+                            <TableCell>{numberOfProps}</TableCell>
+                            <TableCell>Nr</TableCell>
+                            <TableCell><input type="text" className="text-input-field" placeholder="4000" value ={propsPrice} onChange={(e)=>setPropsPrice(e.target.value)} /></TableCell>
+                            <TableCell>{propsAmount}</TableCell>
                         </TableRow>
                     </TableBody>
             </Table>
             </TableRow>
         </TableBody>
       </Table>
-      <button className="calculate-button" >Ca;lculate</button>
-
+      <button className="calculate-button" onClick={formworkButton}>Ca;lculate</button>
     </TableContainer>
     </>
     )
 }
 
-export default Tiling;
+export default MarineBoard;
